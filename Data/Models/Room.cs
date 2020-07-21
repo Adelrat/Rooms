@@ -16,6 +16,8 @@ namespace Data.Models
         public ICollection<Door> DoorsIn { get; set; }
         [InverseProperty("RoomFrom")]
         public ICollection<Door> DoorOut { get; set; }
+
+        public ICollection<CompletedRoom> completedRooms { get; set; }
     }
 
 }

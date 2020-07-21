@@ -13,6 +13,8 @@ namespace Data
     {
         public DbSet<Room> Rooms { get; set; }
         public DbSet<Door> Doors { get; set; }
+        public DbSet<Player> Players { get; set; }
+        public DbSet<CompletedRoom> CompletedRooms { get; set; }
         public DataContext(DbContextOptions<DataContext> options) : base(options)
         {
         }
