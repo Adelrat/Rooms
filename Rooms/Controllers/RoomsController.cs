@@ -41,7 +41,7 @@ namespace Rooms.Controllers
             return View(model);
         }
 
-        [HttpGet]
+        [HttpPost]
         [Route("[controller]/{id:int}")]
         public IActionResult Submit(int id)
         {
@@ -64,7 +64,7 @@ namespace Rooms.Controllers
                 _context.CompletedRooms.Add(completed);
                 _context.SaveChanges();
             }
-            return RedirectToAction(nameof(Show),new { id});
+            return RedirectToAction(nameof(Show), new { id });
         }
         
         private bool HasAcces(string token,int roomId)
