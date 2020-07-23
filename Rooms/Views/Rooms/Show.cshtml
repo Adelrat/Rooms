@@ -56,9 +56,9 @@
             <br /><br /><br /><br /><br /><br />
 
 
-            @Model.Reaction
 
             @if (Model.IsCompleted)
+
             {
                 foreach (var door in Model.OutDoors)
                 {
@@ -67,7 +67,7 @@
                 if (Model.OutDoors.Count == 0)
                 {
                     <h4>
-                        Стена без дверей
+                        Вы прошли все комнаты
                     </h4>
                 }
             }
@@ -79,6 +79,18 @@
             }
         </div>
     </div>
-    <p style="text-align: center"><button>Начать заного</button>
+
+    <div class="text-center">
+        <div class="btn btn-secondary">
+            <button asp-controller="Rooms" asp-action="Refresh">Начать с начала</button>
+
+        </div>
+    </div>
+
+    <div style="float:right">
+        <p title="Вводите ответы с большой буквы"><button>?</button></p>
+    </div>
 
 </form>
+
+

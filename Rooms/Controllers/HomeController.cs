@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
+using Data;
+using Data.Models;
 using Microsoft.AspNetCore.Mvc;
 using Rooms.Models;
 
@@ -10,6 +12,7 @@ namespace Rooms.Controllers
 {
     public class HomeController : Controller
     {
+
         public IActionResult Index()
         {
             return View();
@@ -21,6 +24,8 @@ namespace Rooms.Controllers
 
             return View();
         }
+
+        
 
         public IActionResult Contact()
         {

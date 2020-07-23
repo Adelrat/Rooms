@@ -24,11 +24,20 @@ namespace Rooms.Controllers
         [Route("[controller]/{id:int}")]
         public async Task<IActionResult> Show(int id)
         {
+            
             var token = Request.Cookies["token"];
+
+            //if (id == 9999)
+            //{
+            //    Refresh(token);
+            //    id = 1;
+            //}
+
             if (id != 1 && token == null)
             {
                 return BadRequest();
             }
+            
             var room = await _context.Rooms
                     .Include(r => r.DoorsIn)
                     .Include(r => r.DoorOut)
@@ -48,11 +57,20 @@ namespace Rooms.Controllers
             var answer = Request.Form["answer"].ToString();
             var token = GetToken(id, answer);
 
-            if(token==null || !HasAcces(token, id))
+            
+           
+
+            if (token==null || !HasAcces(token, id))
             {
                 return BadRequest();
 
             }
+
+            //if (id == 9999)
+            //{
+            //    Refresh(token);
+            //    id = 1;
+            //}
             if (IsAnswerCorrect(id,answer))
             {
                 var completed = new CompletedRoom()
@@ -64,12 +82,29 @@ namespace Rooms.Controllers
                 _context.CompletedRooms.Add(completed);
                 _context.SaveChanges();
             }
+
             return RedirectToAction(nameof(Show), new { id });
         }
-        
+
+        //обнуляет пользователя и возвращает его на первую страницу
+        public IActionResult Refresh()
+        {
+            int id = 1;
+            var token = Request.Cookies["token"];
+            var count = _context.CompletedRooms.Count(x => x.PlayerId==token);
+            for (int i = 0; i < count; i++)
+            {
+                CompletedRoom completedRoom = _context.CompletedRooms.Where(x => x.PlayerId == token).FirstOrDefault() ;
+                _context.CompletedRooms.Remove(completedRoom);
+            }
+            _context.SaveChanges();
+            return RedirectToAction(nameof(Show), new { id });
+        }
+
         private bool HasAcces(string token,int roomId)
         {
             if (roomId == 1) return true;
+
 
             var player = _context.Players
             .Include(p => p.CompletedRooms)
@@ -105,9 +140,10 @@ namespace Rooms.Controllers
             }
             return token;
         }
-        //public IActionResult Index()
-        //{
-        //    return View();
-        //}
+
+        public IActionResult Index()
+        {
+            return View();
+        }
     }
 }
